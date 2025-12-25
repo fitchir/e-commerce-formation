@@ -18,8 +18,11 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+    private EmailVerifier $email_verifier;
+
     public function __construct(private EmailVerifier $emailVerifier)
     {
+        $this->email_verifier = $emailVerifier;
     }
 
     #[Route('/register', name: 'app_register')]
@@ -35,7 +38,11 @@ class RegistrationController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
+            $user->setName($form->get('name')->getData());
+            $user->setFirstname($form->get('firstname')->getData());
+            $user->setEmail($form->get('email')->getData());
+            $user->setRoles(["ROLE_USER"]);
+            $user->setAgreeTerms($form->get("agreeTerms")->getData());
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -50,7 +57,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_verify');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -71,12 +78,18 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_verify_email');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre addresse e-mail a été vérifiée.');
 
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_my_space');
+    }
+
+    #[Route('/verify', name:'app_verify')]
+    public function verify(): Response
+    {
+        return $this->render('security/verify.html.twig');
     }
 }

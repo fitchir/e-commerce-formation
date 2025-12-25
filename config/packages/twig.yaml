@@ -1,5 +1,23 @@
 twig:
     file_name_pattern: '*.twig'
+    form_themes:
+        - 'bootstrap_5_layout.html.twig'
+
+    globals:
+        description: 'formation'
+        name: 'Fatma Itchir'
+        address: 'avenue pierre lefaucheux 92100 Boulogne'
+        email: 'itchirfatma23@outlook.fr'
+        company: 'FI Production'
+        telephone: '06.17.67.12.64'
+        siret: '93218902100021'
+        ape: '621Z'
+        price: '500'
+        currency: 'euros'
+        tva: 'non applicable ART.293B du CGI'
+        quantity: '1'
+        host: 'ionos'
+        domain: 'easywebjob.fr'
 
 when@test:
     twig:

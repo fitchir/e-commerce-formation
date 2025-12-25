@@ -6,11 +6,9 @@
     {{ encore_entry_link_tags('app') }}
 {% endblock %}
 {% block body %}
-<section>
 
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+
+    
     
     <form method="post">
     {% if error %}
@@ -50,6 +48,6 @@
         <br>
         <div class="mb-3 text">Vous n'êtes pas enregistré ? <a href="{{ path('app_register')}}">enregistrez-vous en cliquant ici</a></div>
     </form>
-</section>
+
 
 {% endblock %}

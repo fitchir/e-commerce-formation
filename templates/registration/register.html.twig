@@ -2,6 +2,11 @@
 
 {% block title %}S'enregistrer{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
 {% block body %}
     <section class="container mt-4">
 
@@ -16,12 +21,21 @@
         {{ form_errors(registrationForm) }}
 
         {{ form_start(registrationForm) }}
-
+            {{ form_row(registrationForm.name)}}
+            {{ form_row(registrationForm.firstname)}}
             {{ form_row(registrationForm.email) }}
 
             {{ form_row(registrationForm.plainPassword, {
                 label: 'Mot de passe'
             }) }}
+            <div class="eye">
+                    <span class="material-symbols-outlined eye-off">visibility_off</span>
+                    <span class="material-symbols-outlined eye-on">visibility</span>
+                    <span class="displayEye">Afficher le mot passe</span>
+                    <span class="noDisplay">Cacher le mot passe</span>
+
+            </div>
+            <br>
 
             {{ form_row(registrationForm.agreeTerms, {
                 label: "Accepter les conditions d'utilisation de vos données personnelles"
@@ -31,6 +45,8 @@
                 <a href="{{ path('app_rgpd') }}">
                     Règlement général sur la protection des données (RGPD)
                 </a>
+                <br>
+                <br>
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">
